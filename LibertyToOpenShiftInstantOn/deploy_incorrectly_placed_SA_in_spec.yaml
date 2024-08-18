@@ -1,0 +1,59 @@
+# I have added this deploy file to highlight a mistake I made the first time deploying.
+#
+# I incorrectly placed the serviceAccountName in the spec section wheras I should have placed in the containers section. 
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: liberty-to-openshift-instanton
+  labels:
+    app: liberty-to-openshift-instanton
+spec:
+  selector:
+    matchLabels:
+      app: liberty-to-openshift-instanton
+  template:
+    metadata:
+      labels:
+        app: liberty-to-openshift-instanton
+    spec:
+      # Add InstantOn
+      serviceAccountName: liberty-to-openshift-instanton
+      # Add InstantOn
+      containers:
+      - name: liberty-to-openshift-instanton
+        image: image-registry.openshift-image-registry.svc:5000/liberty-to-openshift-instanton/liberty-to-openshift-instanton:olp-java17-1.0
+      # Add InstantOn
+        securityContext:
+          runAsNonRoot: true
+          privileged: false
+          allowPrivilegeEscalation: true
+          capabilities:
+            add:
+              - CHECKPOINT_RESTORE
+              - SETPCAP
+            drop:
+              - ALL
+        # Add InstantOn
+        ports:
+        - containerPort: 9080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: liberty-to-openshift-instanton
+spec:
+  selector:
+    app: liberty-to-openshift-instanton
+  ports:
+  - protocol: TCP
+    port: 9080
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: liberty-to-openshift-instanton
+spec:
+  to:
+    kind: Service
+    name: liberty-to-openshift-instanton	

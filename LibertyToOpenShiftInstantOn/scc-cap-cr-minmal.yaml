@@ -1,0 +1,22 @@
+apiVersion: security.openshift.io/v1
+allowPrivilegeEscalation: true
+defaultAddCapabilities:
+- CHECKPOINT_RESTORE
+- SETPCAP
+kind: SecurityContextConstraints
+metadata:
+  annotations:
+    kubernetes.io/description: criu-scc is based on the restricted SCC but removes any restrictions
+      that prevent the restore image from running successfully.
+  generation: 1
+  name: liberty-to-openshift-instanton
+requiredDropCapabilities:
+- KILL
+- MKNOD
+- SETUID
+- SETGID
+runAsUser:
+  type: MustRunAsNonRoot
+  uid: 1001
+seLinuxContext:
+  type: MustRunAs

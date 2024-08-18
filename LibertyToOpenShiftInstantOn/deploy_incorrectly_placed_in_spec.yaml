@@ -1,0 +1,62 @@
+# This yaml fiole contains a mistake I made while deploying my first Open Liberty InstantOn app.
+# 
+# In this example I incorrectly placed serviceAccountName and securityContext in the spec section.
+#
+# The serviceAccountName and securityContext should be placed in the "containers" section.
+#
+# I am not sure why I made this error but if you try to use this config you'll receive an error.
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: liberty-to-openshift-instanton
+  labels:
+    app: liberty-to-openshift-instanton
+spec:
+  selector:
+    matchLabels:
+      app: liberty-to-openshift-instanton
+  template:
+    metadata:
+      labels:
+        app: liberty-to-openshift-instanton
+    spec:
+      # Add InstantOn - this is in the wrong spot, it should be under container
+      serviceAccountName: liberty-to-openshift-instanton
+      securityContext:
+        runAsNonRoot: true
+        privileged: false
+        allowPrivilegeEscalation: true
+        capabilities:
+          add:
+            - CHECKPOINT_RESTORE
+            - SETPCAP
+          drop:
+            - ALL
+      # Add InstantOn
+      containers:
+      - name: libertytoopenshiftinstanton-container
+        image: image-registry.openshift-image-registry.svc:5000/liberty-to-openshift-instanton/liberty-to-openshift-instanton:olp-java17-1.0
+        ports:
+        - containerPort: 9080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: liberty-to-openshift-instanton
+spec:
+  selector:
+    app: liberty-to-openshift-instanton
+  ports:
+  - protocol: TCP
+    port: 9080
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: liberty-to-openshift-instanton
+spec:
+  to:
+    kind: Service
+    name: liberty-to-openshift-instanton	
