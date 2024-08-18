@@ -12,11 +12,7 @@
 
 # Package Files #
 *.jar
-<<<<<<< HEAD
 # Keep *.war
-=======
-*.war
->>>>>>> branch 'main' of https://github.com/seanbyd/LibertyToOpenShiftInstantOn.git
 *.nar
 *.ear
 *.zip
