@@ -17,7 +17,7 @@ spec:
       - name: liberty-to-openshift-instanton
         image: image-registry.openshift-image-registry.svc:5000/liberty-to-openshift-instanton/liberty-to-openshift-instanton:olp-java17-1.0
       # Add InstantOn
-        serviceAccountName: liberty-to-openshift-instanton
+        serviceAccountName: liberty-to-openshift-instanton-sa
         securityContext:
           runAsNonRoot: true
           privileged: false
