@@ -23,7 +23,7 @@ spec:
         app: liberty-to-openshift-instanton
     spec:
       # Add InstantOn - this is in the wrong spot, it should be under container
-      serviceAccountName: liberty-to-openshift-instanton
+      serviceAccountName: liberty-to-openshift-instanton-sa
       securityContext:
         runAsNonRoot: true
         privileged: false

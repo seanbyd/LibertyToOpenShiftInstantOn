@@ -18,7 +18,7 @@ spec:
         app: liberty-to-openshift-instanton
     spec:
       # Add InstantOn
-      serviceAccountName: liberty-to-openshift-instanton
+      serviceAccountName: liberty-to-openshift-instanton-sa
       # Add InstantOn
       containers:
       - name: liberty-to-openshift-instanton
